@@ -55,8 +55,9 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label class="form-label">Password Baru</label>
-                        <input type="password" name="password" class="form-input" required>
+                        <input type="password" name="password" class="form-input" placeholder="Buat password yang kuat" required>
                         @error('password')<div class="form-error">{{ $message }}</div>@enderror
+                        <div style="font-size: 11px; color: var(--n-text-muted); margin-top: 6px;">Min. 8 karakter, huruf besar/kecil, angka & simbol.</div>
                     </div>
                     <div class="form-group">
                         <label class="form-label">Konfirmasi Password</label>

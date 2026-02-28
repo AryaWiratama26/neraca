@@ -16,6 +16,9 @@
     <!-- Lottie Player -->
     <script src="https://unpkg.com/@lottiefiles/dotlottie-wc@0.9.3/dist/dotlottie-wc.js" type="module"></script>
 
+    <!-- ScrollReveal.js -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/css/landing.css'])
 </head>
@@ -583,21 +586,22 @@
                 });
             }
 
-            // Scroll Reveal Observer
-            const revealElements = document.querySelectorAll('.reveal');
-            if (revealElements.length > 0 && typeof IntersectionObserver !== 'undefined') {
-                const revealObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('active');
-                            revealObserver.unobserve(entry.target); // Trigger only once
-                        }
-                    });
-                }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+            
+            if (typeof ScrollReveal !== 'undefined') {
+                const sr = ScrollReveal({
+                    distance: '40px',
+                    duration: 800,
+                    easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+                    interval: 100,
+                    reset: false
+                });
 
-                revealElements.forEach(el => revealObserver.observe(el));
-            } else {
-                revealElements.forEach(el => el.classList.add('active')); // fallback if not supported
+                sr.reveal('.reveal', { origin: 'bottom' });
+                sr.reveal('.reveal-delay-1', { origin: 'bottom', delay: 100 });
+                sr.reveal('.reveal-delay-2', { origin: 'bottom', delay: 200 });
+                sr.reveal('.reveal-delay-3', { origin: 'bottom', delay: 300 });
+                
+                ;
             }
 
             // FAQ Accordion

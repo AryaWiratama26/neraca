@@ -16,16 +16,45 @@
 
     <div class="card">
         @forelse($logs as $log)
+            @php
+                $icon = match($log->action) {
+                    'created' => 'plus-circle',
+                    'deleted' => 'trash-2',
+                    'login' => 'log-in',
+                    'logout' => 'log-out',
+                    '2fa_enabled' => 'shield-check',
+                    '2fa_disabled' => 'shield-alert',
+                    'export' => 'download',
+                    'import' => 'upload',
+                    default => 'edit'
+                };
+                
+                $colorHex = match($log->action) {
+                    'created' => '#059669', // emerald
+                    'deleted' => '#DC2626', // red
+                    '2fa_enabled' => '#059669',
+                    '2fa_disabled' => '#DC2626',
+                    'login' => '#2563EB', // blue
+                    'logout' => '#64748B', // slate
+                    default => '#D97706' // amber (warning/updated)
+                };
+
+                $bg = match($log->action) {
+                    'created', '2fa_enabled' => 'rgba(5,150,105,0.08)',
+                    'deleted', '2fa_disabled' => 'rgba(220,38,38,0.08)',
+                    'login' => 'rgba(37,99,235,0.08)',
+                    'logout' => 'rgba(100,116,139,0.08)',
+                    default => 'rgba(245,158,11,0.08)'
+                };
+            @endphp
             <div class="table-row">
-                <div class="table-row-icon" style="background:
-                    {{ $log->action === 'created' ? 'rgba(5,150,105,0.08)' : ($log->action === 'deleted' ? 'rgba(220,38,38,0.08)' : 'rgba(245,158,11,0.08)') }};
-                    color: {{ $log->action === 'created' ? '#059669' : ($log->action === 'deleted' ? '#DC2626' : '#D97706') }};">
-                    <i class="icon-{{ $log->action === 'created' ? 'plus-circle' : ($log->action === 'deleted' ? 'trash-2' : ($log->action === 'login' ? 'log-in' : 'edit')) }}" style="font-size:14px;"></i>
+                <div class="table-row-icon" style="background: {{ $bg }}; color: {{ $colorHex }};">
+                    <i class="icon-{{ $icon }}" style="font-size:14px;"></i>
                 </div>
                 <div class="table-row-content">
                     <div class="table-row-title">{{ $log->description }}</div>
                     <div class="table-row-subtitle">
-                        <span class="tag-badge" style="background: {{ $log->action === 'created' ? 'rgba(5,150,105,0.1)' : ($log->action === 'deleted' ? 'rgba(220,38,38,0.1)' : 'rgba(245,158,11,0.1)') }}; color: {{ $log->action === 'created' ? '#059669' : ($log->action === 'deleted' ? '#DC2626' : '#D97706') }};">{{ $log->action_label }}</span>
+                        <span class="tag-badge" style="background: {{ $bg }}; color: {{ $colorHex }};">{{ $log->action_label }}</span>
                         {{ $log->created_at->format('d M Y H:i') }}
                         @if($log->ip_address) &middot; {{ $log->ip_address }} @endif
                     </div>

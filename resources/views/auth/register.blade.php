@@ -43,10 +43,13 @@
                 <div class="form-group">
                     <label for="password" class="form-label">Password</label>
                     <div style="position: relative;">
-                        <input type="password" id="password" name="password" class="form-input" placeholder="Minimal 8 karakter" required style="padding-right: 40px;">
+                        <input type="password" id="password" name="password" class="form-input" placeholder="Buat password yang kuat" required style="padding-right: 40px;">
                         <button type="button" onclick="toggleAuthPassword('password', this)" style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--n-text-muted); cursor: pointer; padding: 4px; display: flex;">
                             <i class="icon-eye" style="font-size: 16px;"></i>
                         </button>
+                    </div>
+                    <div style="font-size: 12px; color: var(--n-text-muted); margin-top: 6px;">
+                        Min. 8 karakter, kombinasi huruf besar, huruf kecil, angka & simbol.
                     </div>
                 </div>
                 <div class="form-group">
