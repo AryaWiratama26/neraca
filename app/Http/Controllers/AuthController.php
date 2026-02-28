@@ -24,8 +24,20 @@ class AuthController extends Controller
         ]);
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
+            $user = Auth::user();
+
+            if ($user->is_banned) {
+                Auth::logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+
+                return back()->withErrors([
+                    'email' => 'Peringatan: Akun Anda telah ditangguhkan (Banned) oleh Administrator.',
+                ])->onlyInput('email');
+            }
+
             $request->session()->regenerate();
-            ActivityLog::log('login', Auth::user(), 'Login berhasil.');
+            ActivityLog::log('login', $user, 'Login berhasil.');
             return redirect()->intended('/dashboard');
         }
 

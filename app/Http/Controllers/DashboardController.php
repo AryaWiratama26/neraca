@@ -85,6 +85,14 @@ class DashboardController extends Controller
             $chartExpense[] = $dayTx->where('type', 'expense')->sum('amount');
         }
 
+        $announcements = \App\Models\Announcement::where('is_active', true)
+            ->where(function ($query) {
+                $query->whereNull('expires_at')
+                      ->orWhere('expires_at', '>', now());
+            })
+            ->latest()
+            ->get();
+
         return view('dashboard', compact(
             'totalBalance',
             'incomeThisMonth',
@@ -98,6 +106,7 @@ class DashboardController extends Controller
             'top5Labels',
             'top5Data',
             'top5Colors',
+            'announcements',
         ));
     }
 

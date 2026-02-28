@@ -200,7 +200,9 @@ class TransactionController extends Controller
             $fromAccount = $accounts->get($validated['from_account_id']);
             $toAccount = $accounts->get($validated['to_account_id']);
 
-            if (!$fromAccount || !$toAccount) abort(404, 'Account not found');
+            if (!$fromAccount || !$toAccount) {
+                abort(403, 'Unauthorized account access');
+            }
 
             $fromAccount->balance = (float) $fromAccount->balance - (float) $validated['amount'];
             $fromAccount->save();
@@ -240,6 +242,7 @@ class TransactionController extends Controller
 
         DB::transaction(function () use ($transaction) {
             $account = Account::where('id', $transaction->account_id)
+                ->where('user_id', Auth::id())
                 ->lockForUpdate()
                 ->first();
 

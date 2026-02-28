@@ -77,6 +77,9 @@
             <a href="{{ route('backup.import') }}" class="sidebar-link {{ request()->routeIs('backup.*') ? 'active' : '' }}">
                 <i class="icon-database"></i> Backup
             </a>
+            <a href="{{ route('feedback.create') }}" class="sidebar-link {{ request()->routeIs('feedback.*') ? 'active' : '' }}">
+                <i class="icon-message-square"></i> Bantuan
+            </a>
         </nav>
 
         <div class="sidebar-footer">

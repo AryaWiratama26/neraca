@@ -17,13 +17,14 @@ use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\TwoFactorController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\FeedbackController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/register', [AuthController::class, 'register'])->middleware('throttle:3,1');
     
     // Password Reset
     Route::get('/forgot-password', [PasswordResetController::class, 'requestForm'])->name('password.request');
@@ -119,6 +120,10 @@ Route::middleware(['auth', \App\Http\Middleware\Verify2FA::class])->group(functi
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile.index');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password');
+
+    // Feedback
+    Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 });
 
 Route::get('/', function () {

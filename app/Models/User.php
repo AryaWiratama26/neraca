@@ -17,6 +17,7 @@ class User extends Authenticatable
         'avatar',
         'currency',
         'theme',
+        'is_banned',
     ];
 
     protected $hidden = [

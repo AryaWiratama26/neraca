@@ -39,6 +39,41 @@
         </div>
     </div>
 
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-slate-900 to-slate-700">Dashboard Finansial</h1>
+        <p class="text-slate-500 mt-1">Ringkasan kondisi keuangan Anda saat ini.</p>
+    </div>
+
+    @if(isset($announcements) && $announcements->count() > 0)
+        <div class="mb-8 space-y-3">
+            @php
+                $typeConfig = [
+                    'info' => ['icon' => 'info', 'accent' => '#3B82F6'],
+                    'warning' => ['icon' => 'alert-triangle', 'accent' => '#F59E0B'],
+                    'success' => ['icon' => 'check-circle', 'accent' => '#10B981'],
+                    'danger' => ['icon' => 'alert-circle', 'accent' => '#EF4444'],
+                    'default' => ['icon' => 'bell', 'accent' => 'var(--n-primary)'],
+                ];
+            @endphp
+
+            @foreach($announcements as $announcement)
+                @php $cfg = $typeConfig[$announcement->type] ?? $typeConfig['default']; @endphp
+                <div class="card" style="padding: 14px 20px; display: flex; align-items: center; gap: 18px;">
+                    <div style="width: 42px; height: 42px; border-radius: 12px; background: var(--n-primary-light); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                        <i class="icon-{{ $cfg['icon'] }}" style="font-size: 20px; color: {{ $cfg['accent'] }};"></i>
+                    </div>
+                    <div style="flex: 1; min-width: 0;">
+                        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 2px;">
+                            <h4 style="font-size: 14px; font-weight: 700; color: var(--n-text); margin: 0;">{{ $announcement->title }}</h4>
+                            <span style="font-size: 10px; font-weight: 700; color: var(--n-text-muted); text-transform: uppercase; letter-spacing: 0.05em; background: rgba(0,0,0,0.04); padding: 1px 6px; border-radius: 4px;">Sistem</span>
+                        </div>
+                        <p style="font-size: 13.5px; color: var(--n-text-secondary); margin: 0; line-height: 1.4;">{{ $announcement->message }}</p>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @endif
+
     <div class="dashboard-grid" id="widgetRow1">
         <div class="card widget-card" data-widget="cashflow" draggable="true">
             <div class="chart-header">
