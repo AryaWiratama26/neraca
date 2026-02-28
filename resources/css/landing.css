@@ -42,19 +42,26 @@ body {
 
 /* Typography */
 .mac-headline {
-    font-size: clamp(2.5rem, 5vw, 4.5rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.04em;
-    color: #1a1a1a;
+    font-size: clamp(3rem, 6vw, 5.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.05em;
+    color: #000000;
+}
+
+.mac-headline span.text-gray-400 {
+    background: linear-gradient(135deg, #6b7280 0%, #9ca3af 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .mac-subhead {
-    font-size: clamp(1.1rem, 2vw, 1.25rem);
-    font-weight: 450;
-    color: #1a1a1a;
-    letter-spacing: -0.01em;
-    line-height: 1.6;
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    font-weight: 400;
+    color: #6b7280;
+    letter-spacing: -0.015em;
+    line-height: 1.5;
 }
 
 /* Buttons */

@@ -91,7 +91,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <main class="flex-grow pt-28 pb-12 sm:pt-40 sm:pb-24 lg:pb-32 overflow-hidden flex items-center bg-white reveal">
+    <main class="flex-grow min-h-screen pt-28 pb-12 sm:pt-40 sm:pb-24 lg:pb-32 overflow-hidden flex items-center bg-white reveal">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative w-full">
             <div class="flex flex-col-reverse lg:grid lg:grid-cols-12 lg:gap-16 items-center">
                 <!-- Text Content -->
