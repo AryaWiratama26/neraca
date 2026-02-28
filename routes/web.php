@@ -21,13 +21,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:5,1');
     Route::get('/register', [AuthController::class, 'showRegister'])->name('register');
     Route::post('/register', [AuthController::class, 'register']);
     
     // Password Reset
     Route::get('/forgot-password', [PasswordResetController::class, 'requestForm'])->name('password.request');
-    Route::post('/forgot-password', [PasswordResetController::class, 'sendEmail'])->name('password.email');
+    Route::post('/forgot-password', [PasswordResetController::class, 'sendEmail'])->name('password.email')->middleware('throttle:3,1');
     Route::get('/reset-password/{token}', [PasswordResetController::class, 'resetForm'])->name('password.reset');
     Route::post('/reset-password', [PasswordResetController::class, 'updatePassword'])->name('password.update');
 });

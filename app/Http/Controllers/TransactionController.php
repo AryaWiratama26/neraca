@@ -70,15 +70,16 @@ class TransactionController extends Controller
             $validated['tags'] = null;
         }
 
-        $account = Account::where('id', $validated['account_id'])
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        DB::transaction(function () use ($validated) {
+            $account = Account::where('id', $validated['account_id'])
+                ->where('user_id', Auth::id())
+                ->lockForUpdate()
+                ->firstOrFail();
 
-        DB::transaction(function () use ($validated, $account) {
             $validated['user_id'] = Auth::id();
             Transaction::create($validated);
 
-            // PHP-level balance update (encrypted, can't use increment/decrement)
+            
             if ($validated['type'] === 'income') {
                 $account->balance = (float) $account->balance + (float) $validated['amount'];
             } else {
@@ -86,13 +87,14 @@ class TransactionController extends Controller
             }
             $account->save();
 
-            // Update budget spent if expense
+            
             if ($validated['type'] === 'expense') {
                 $date = \Carbon\Carbon::parse($validated['date']);
                 $budget = \App\Models\Budget::where('user_id', Auth::id())
                     ->where('category_id', $validated['category_id'])
                     ->where('month', $date->month)
                     ->where('year', $date->year)
+                    ->lockForUpdate()
                     ->first();
 
                 if ($budget) {
@@ -126,13 +128,28 @@ class TransactionController extends Controller
             $validated['tags'] = null;
         }
 
-        $newAccount = Account::where('id', $validated['account_id'])
-            ->where('user_id', Auth::id())
-            ->firstOrFail();
+        DB::transaction(function () use ($transaction, $validated) {
+            $oldAccountId = $transaction->account_id;
+            $newAccountId = $validated['account_id'];
 
-        DB::transaction(function () use ($transaction, $validated, $newAccount) {
+            // Prevent deadlocks by ordering IDs
+            $accountIds = array_unique([$oldAccountId, $newAccountId]);
+            sort($accountIds);
+            
+            $accounts = Account::whereIn('id', $accountIds)
+                ->where('user_id', Auth::id())
+                ->lockForUpdate()
+                ->get()
+                ->keyBy('id');
+
+            $oldAccount = $accounts->get($oldAccountId);
+            $newAccount = $accounts->get($newAccountId);
+
+            if (!$newAccount) {
+                abort(404, 'Account not found');
+            }
+
             // Reverse old transaction
-            $oldAccount = $transaction->account;
             if ($oldAccount) {
                 if ($transaction->type === 'income') {
                     $oldAccount->balance = (float) $oldAccount->balance - (float) $transaction->amount;
@@ -142,10 +159,11 @@ class TransactionController extends Controller
                 $oldAccount->save();
             }
 
-            // Apply new transaction (reload if same account)
+            
             if ($oldAccount && $oldAccount->id === $newAccount->id) {
-                $newAccount->refresh();
+                $newAccount = $oldAccount;
             }
+            
             if ($validated['type'] === 'income') {
                 $newAccount->balance = (float) $newAccount->balance + (float) $validated['amount'];
             } else {
@@ -169,12 +187,21 @@ class TransactionController extends Controller
             'date' => 'required|date',
         ]);
 
-        $fromAccount = Account::where('id', $validated['from_account_id'])
-            ->where('user_id', Auth::id())->firstOrFail();
-        $toAccount = Account::where('id', $validated['to_account_id'])
-            ->where('user_id', Auth::id())->firstOrFail();
+        DB::transaction(function () use ($validated) {
+            $accountIds = [$validated['from_account_id'], $validated['to_account_id']];
+            sort($accountIds); // Sort to prevent deadlocks
 
-        DB::transaction(function () use ($validated, $fromAccount, $toAccount) {
+            $accounts = Account::whereIn('id', $accountIds)
+                ->where('user_id', Auth::id())
+                ->lockForUpdate()
+                ->get()
+                ->keyBy('id');
+
+            $fromAccount = $accounts->get($validated['from_account_id']);
+            $toAccount = $accounts->get($validated['to_account_id']);
+
+            if (!$fromAccount || !$toAccount) abort(404, 'Account not found');
+
             $fromAccount->balance = (float) $fromAccount->balance - (float) $validated['amount'];
             $fromAccount->save();
 
@@ -212,7 +239,10 @@ class TransactionController extends Controller
         if ($transaction->user_id !== Auth::id()) abort(403);
 
         DB::transaction(function () use ($transaction) {
-            $account = $transaction->account;
+            $account = Account::where('id', $transaction->account_id)
+                ->lockForUpdate()
+                ->first();
+
             if ($account) {
                 if ($transaction->type === 'income') {
                     $account->balance = (float) $account->balance - (float) $transaction->amount;
