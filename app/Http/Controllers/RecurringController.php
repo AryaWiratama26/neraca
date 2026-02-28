@@ -50,7 +50,7 @@ class RecurringController extends Controller
 
     public function update(Request $request, RecurringTransaction $recurring)
     {
-        if ($recurring->user_id !== Auth::id()) abort(403);
+        if ($recurring->user_id != Auth::id()) abort(403);
 
         $validated = $request->validate([
             'amount' => 'required|numeric|min:1',
@@ -68,7 +68,7 @@ class RecurringController extends Controller
 
     public function toggle(RecurringTransaction $recurring)
     {
-        if ($recurring->user_id !== Auth::id()) abort(403);
+        if ($recurring->user_id != Auth::id()) abort(403);
 
         $recurring->is_active = !$recurring->is_active;
         $recurring->save();
@@ -79,7 +79,7 @@ class RecurringController extends Controller
 
     public function destroy(RecurringTransaction $recurring)
     {
-        if ($recurring->user_id !== Auth::id()) abort(403);
+        if ($recurring->user_id != Auth::id()) abort(403);
 
         ActivityLog::log('deleted', $recurring, "Transaksi berulang dihapus.");
         $recurring->delete();

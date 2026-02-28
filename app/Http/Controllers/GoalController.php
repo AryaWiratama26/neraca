@@ -41,7 +41,7 @@ class GoalController extends Controller
 
     public function addFund(Request $request, Goal $goal)
     {
-        if ($goal->user_id !== Auth::id()) abort(403);
+        if ($goal->user_id != Auth::id()) abort(403);
 
         $validated = $request->validate([
             'amount' => 'required|numeric|min:1000',
@@ -58,7 +58,7 @@ class GoalController extends Controller
 
     public function update(Request $request, Goal $goal)
     {
-        if ($goal->user_id !== Auth::id()) abort(403);
+        if ($goal->user_id != Auth::id()) abort(403);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -74,7 +74,7 @@ class GoalController extends Controller
 
     public function destroy(Goal $goal)
     {
-        if ($goal->user_id !== Auth::id()) abort(403);
+        if ($goal->user_id != Auth::id()) abort(403);
 
         $goal->delete();
 

@@ -43,7 +43,7 @@ class AccountController extends Controller
 
     public function update(Request $request, Account $account)
     {
-        if ($account->user_id !== Auth::id()) abort(403);
+        if ($account->user_id != Auth::id()) abort(403);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -66,7 +66,7 @@ class AccountController extends Controller
 
     public function destroy(Account $account)
     {
-        if ($account->user_id !== Auth::id()) abort(403);
+        if ($account->user_id != Auth::id()) abort(403);
 
         $account->delete();
 

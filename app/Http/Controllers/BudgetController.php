@@ -89,7 +89,7 @@ class BudgetController extends Controller
 
     public function update(Request $request, Budget $budget)
     {
-        if ($budget->user_id !== Auth::id()) abort(403);
+        if ($budget->user_id != Auth::id()) abort(403);
 
         $validated = $request->validate([
             'amount' => 'required|numeric|min:1000',
@@ -102,7 +102,7 @@ class BudgetController extends Controller
 
     public function destroy(Budget $budget)
     {
-        if ($budget->user_id !== Auth::id()) abort(403);
+        if ($budget->user_id != Auth::id()) abort(403);
 
         $budget->delete();
 

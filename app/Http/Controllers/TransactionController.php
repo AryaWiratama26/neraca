@@ -109,7 +109,7 @@ class TransactionController extends Controller
 
     public function update(Request $request, Transaction $transaction)
     {
-        if ($transaction->user_id !== Auth::id()) abort(403);
+        if ($transaction->user_id != Auth::id()) abort(403);
 
         $validated = $request->validate([
             'account_id' => 'required|exists:accounts,id',
@@ -238,7 +238,7 @@ class TransactionController extends Controller
 
     public function destroy(Transaction $transaction)
     {
-        if ($transaction->user_id !== Auth::id()) abort(403);
+        if ($transaction->user_id != Auth::id()) abort(403);
 
         DB::transaction(function () use ($transaction) {
             $account = Account::where('id', $transaction->account_id)

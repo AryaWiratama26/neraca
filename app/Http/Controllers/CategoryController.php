@@ -42,7 +42,7 @@ class CategoryController extends Controller
         if ($category->is_default) {
             return redirect()->route('categories.index')->with('error', 'Kategori bawaan tidak bisa diubah.');
         }
-        if ($category->user_id !== Auth::id()) abort(403);
+        if ($category->user_id != Auth::id()) abort(403);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -60,7 +60,7 @@ class CategoryController extends Controller
         if ($category->is_default) {
             return redirect()->route('categories.index')->with('error', 'Kategori bawaan tidak bisa dihapus.');
         }
-        if ($category->user_id !== Auth::id()) abort(403);
+        if ($category->user_id != Auth::id()) abort(403);
 
         $category->delete();
 

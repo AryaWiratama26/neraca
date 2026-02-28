@@ -50,7 +50,7 @@ class TemplateController extends Controller
 
     public function use(TransactionTemplate $template)
     {
-        if ($template->user_id !== Auth::id()) abort(403);
+        if ($template->user_id != Auth::id()) abort(403);
 
         $account = $template->account;
         if (!$account) {
@@ -84,7 +84,7 @@ class TemplateController extends Controller
 
     public function destroy(TransactionTemplate $template)
     {
-        if ($template->user_id !== Auth::id()) abort(403);
+        if ($template->user_id != Auth::id()) abort(403);
 
         $template->delete();
 
