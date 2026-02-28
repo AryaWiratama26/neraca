@@ -19,6 +19,12 @@
             <h1 class="auth-title">Lupa password?</h1>
             <p class="auth-subtitle">Masukkan email terdaftar Anda, kami akan mengirimkan link untuk mereset password.</p>
 
+            @if (session('status'))
+                <div class="auth-alert" style="background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <div>{{ session('status') }}</div>
+                </div>
+            @endif
+
             @if ($errors->any())
                 <div class="auth-alert">
                     @foreach ($errors->all() as $error)<div>{{ $error }}</div>@endforeach

@@ -137,7 +137,7 @@
         <div class="modal" style="max-width: 380px;">
             <div class="modal-body" style="text-align: center; padding: 28px 24px 20px;">
                 <div id="confirmIcon" style="width: 48px; height: 48px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 14px; background: rgba(220,38,38,0.08); color: #DC2626;">
-                    <i class="icon-alert-triangle" style="font-size: 22px;"></i>
+                    <i class="icon-triangle-alert" style="font-size: 22px;"></i>
                 </div>
                 <h3 id="confirmTitle" style="font-size: 15px; font-weight: 600; margin-bottom: 6px;">Konfirmasi</h3>
                 <p id="confirmMessage" style="font-size: 12.5px; color: var(--n-text-secondary); line-height: 1.5; margin-bottom: 0;">Yakin ingin melanjutkan?</p>

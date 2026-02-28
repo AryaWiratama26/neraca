@@ -18,7 +18,7 @@ body {
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    
+
 }
 
 .glass-nav.scrolled {
@@ -167,4 +167,238 @@ body {
     background: var(--n-secondary);
     opacity: 0.03;
     filter: blur(80px);
+}
+
+/* Scroll Reveal Animations */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal-delay-1 {
+    transition-delay: 0.1s;
+}
+
+.reveal-delay-2 {
+    transition-delay: 0.2s;
+}
+
+.reveal-delay-3 {
+    transition-delay: 0.3s;
+}
+
+/* Pricing Card Special Glow */
+.pricing-card-pro {
+    position: relative;
+    background: #ffffff;
+    border: 1px solid rgba(15, 118, 110, 0.2);
+    border-radius: var(--n-radius-xl);
+    box-shadow: 0 10px 40px rgba(15, 118, 110, 0.08);
+    transition: transform var(--n-transition), box-shadow var(--n-transition);
+}
+
+.pricing-card-pro:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px rgba(15, 118, 110, 0.12);
+}
+
+.pricing-badge {
+    position: absolute;
+    top: -12px;
+    right: 24px;
+    background: linear-gradient(135deg, var(--n-primary), var(--n-secondary));
+    color: white;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+    box-shadow: 0 4px 12px rgba(15, 118, 110, 0.3);
+}
+
+/* FAQ Accordion */
+.faq-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.faq-button {
+    width: 100%;
+    text-align: left;
+    padding: 24px 0;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #1a1a1a;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+
+.faq-button:hover {
+    color: var(--n-primary);
+}
+
+.faq-icon {
+    transition: transform 0.3s ease;
+    color: #9ca3af;
+}
+
+.faq-button[aria-expanded="true"] .faq-icon {
+    transform: rotate(180deg);
+    color: var(--n-primary);
+}
+
+.faq-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease;
+    color: #6b7280;
+    line-height: 1.6;
+}
+
+.faq-button[aria-expanded="true"]+.faq-content {
+    max-height: 200px;
+    padding-bottom: 24px;
+}
+
+/* Dashboard Mockup Layout (Bento Grid) */
+.mockup-container {
+    position: relative;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.mockup-header {
+    background: #f9fafb;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    padding: 0.75rem 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.mockup-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.mockup-dot.red {
+    background-color: #ef4444;
+}
+
+.mockup-dot.yellow {
+    background-color: #f59e0b;
+}
+
+.mockup-dot.green {
+    background-color: #10b981;
+}
+
+.bento-card {
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 1rem;
+    padding: 1.25rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+}
+
+/* Comparison Section */
+.compare-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: var(--n-radius-xl);
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.compare-row {
+    transition: background-color 0.2s ease;
+}
+
+.compare-row:not(:last-child) td {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.compare-row:hover {
+    background-color: #f9fafb;
+}
+
+.compare-cell {
+    padding: 1.25rem;
+    font-size: 1rem;
+}
+
+.compare-header {
+    background: #f8fafc;
+    font-weight: 600;
+    text-align: left;
+    padding: 1.5rem 1.25rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.compare-neraca-col {
+    background-color: rgba(15, 118, 110, 0.03);
+    /* Subtle primary tint */
+    border-left: 1px solid rgba(15, 118, 110, 0.1);
+    border-right: 1px solid rgba(15, 118, 110, 0.1);
+}
+
+.compare-header.compare-neraca-col {
+    background-color: var(--n-primary-light);
+    color: var(--n-primary);
+    border-top: 2px solid var(--n-primary);
+}
+
+/* How it Works */
+.step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--n-primary), var(--n-primary-hover));
+    color: white;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 14px var(--n-primary-light);
+}
+
+.step-card {
+    position: relative;
+    padding: 2rem;
+    border-radius: 1.5rem;
+    background: white;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+}
+
+/* Connectors for Desktop */
+@media (min-width: 1024px) {
+    .step-connector {
+        position: absolute;
+        top: 3.5rem;
+        left: 50%;
+        width: 100%;
+        height: 2px;
+        background: url('data:image/svg+xml;utf8,<svg width="100%" height="2" xmlns="http://www.w3.org/2000/svg"><line x1="0" y1="1" x2="100%" y2="1" stroke="rgba(15, 118, 110, 0.2)" stroke-width="2" stroke-dasharray="6,6"/></svg>');
+        z-index: -1;
+    }
 }

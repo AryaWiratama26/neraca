@@ -13,8 +13,11 @@
 </head>
 <body>
     <div class="auth-wrapper">
-        <div class="auth-card">
-            <div class="auth-brand">
+        <div class="auth-card" style="position: relative;">
+            <a href="{{ url('/') }}" style="position: absolute; top: 24px; left: 24px; display: inline-flex; items: center; gap: 6px; color: var(--n-text-muted); text-decoration: none; font-size: 13px; font-weight: 500; transition: color 0.2s ease;">
+                <i class="icon-arrow-left" style="font-size: 14px;"></i> Kembali
+            </a>
+            <div class="auth-brand" style="margin-top: 16px;">
                 <div class="auth-brand-icon"><i class="icon-wallet"></i></div>
                 <span class="auth-brand-name">Neraca</span>
             </div>

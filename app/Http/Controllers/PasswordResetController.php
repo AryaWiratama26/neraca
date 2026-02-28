@@ -19,15 +19,13 @@ class PasswordResetController extends Controller
     {
         $request->validate(['email' => ['required', 'email']]);
 
-        
-        $user = User::where('email', $request->email)->first();
-        if (!$user) {
-            return back()->withErrors(['email' => 'Kami tidak dapat menemukan pengguna dengan alamat email tersebut.']);
-        }
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
 
-        $token = Password::createToken($user);
-
-        return redirect()->route('password.reset', ['token' => $token])->with('email', $request->email)->with('status', 'Link reset password berhasil dimuat. (Mode demo: otomatis dialihkan)');
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with('status', __($status))
+            : back()->withErrors(['email' => __($status)]);
     }
 
     public function resetForm(Request $request, $token)
